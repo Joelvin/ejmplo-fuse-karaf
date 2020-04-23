@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf-2.8.3.xsd">
+    <cxf:cxfEndpoint address="/javainuse/learn"
+        endpointName="a:SOATestEndpoint" id="cXFTest"
+        serviceClass="com.javainuse.SOATestEndpoint"
+        serviceName="a:SOATestEndpointService"
+        wsdlURL="META-INF/wsdl/test.wsdl" xmlns:a="http://javainuse.com"/>
+    <bean class="com.javainuse.beans.CamelProcessor" id="processor"/>
+    <camelContext id="camelId" xmlns="http://camel.apache.org/schema/spring">
+        <camel:route id="bookTicket">
+            <camel:from id="_from1" uri="cxf:bean:cXFTest"/>
+            <process id="_process1" ref="processor"/>
+        </camel:route>
+    </camelContext>
+</beans>
